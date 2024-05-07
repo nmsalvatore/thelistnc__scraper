@@ -1,0 +1,17 @@
+{
+  "name": "thelistnc__scraper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "crazyhorse.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "got": "^14.2.1",
+    "jsdom": "^24.0.0"
+  },
+  "type": "module"
+}
