@@ -10,8 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.4.5",
     "got": "^14.2.1",
-    "jsdom": "^24.0.0"
+    "jsdom": "^24.0.0",
+    "postgres": "^3.4.4",
+    "uuid": "^9.0.1"
   },
   "type": "module"
 }
