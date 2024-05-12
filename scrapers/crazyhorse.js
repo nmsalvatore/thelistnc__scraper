@@ -1,10 +1,8 @@
 import fs from "node:fs";
 import path from "path";
-
 import jsdom from "jsdom";
 import got from "got";
-
-import { extractTimes } from "../utils/dates.js";
+import { extractTimes, formatTime } from "../utils/dates.js";
 
 const { JSDOM } = jsdom;
 
@@ -19,34 +17,30 @@ async function getPageDocument(pageNum) {
     return document;
 }
 
-async function getPageEvents(pageNum) {
+async function getPageArticles(pageNum) {
     const pageDocument = await getPageDocument(pageNum);
     const articles = pageDocument.querySelectorAll(
         "article.tribe-common-g-col",
     );
 
+    return articles;
+}
+
+async function getPageEvents(pageNum) {
+    const articles = await getPageArticles(pageNum);
     const events = [];
 
     for (let article of articles) {
-        const title = getTitle(article);
-        const date = getDate(article);
-        const admission = getAdmission(article);
-        const venue = "Crazy Horse Saloon";
-        const city = "Nevada City";
-        const times = getTimes(article);
-        const startTime = times[0];
-        const endTime = times[1];
-        const url = getUrl(article);
-
         events.push({
-            title,
-            venue,
-            city,
-            date,
-            startTime,
-            endTime,
-            admission,
-            url,
+            title: getTitle(article),
+            venue: "Crazy Horse Saloon",
+            city: "Nevada City",
+            startDate: getStartDate(article),
+            startTime: getStartTime(article),
+            endTime: getEndTime(article),
+            admission: getAdmission(article),
+            url: getUrl(article),
+            continuous: false,
         });
     }
 
@@ -58,53 +52,59 @@ function getTitle(element) {
     return title.textContent.trim();
 }
 
-function getDate(element) {
-    const time = element.querySelector(
+function getStartDate(element) {
+    const datetimeElement = element.querySelector(
         "time.tribe-events-pro-photo__event-date-tag-datetime",
     );
-    return time.getAttribute("datetime");
+    const dateString = datetimeElement.getAttribute("datetime");
+    const [year, month, day] = dateString.split("-");
+    const date = new Date(year, month - 1, day);
+    date.setHours(date.getHours() - 7);
+    return date;
 }
 
 function getTimes(element) {
     const selector = ".tribe-events-pro-photo__event-datetime";
-    const timeString =
-        element.querySelector(selector).textContent;
+    const timeString = element.querySelector(selector).textContent;
     const times = extractTimes(timeString);
     return times;
 }
 
+function getStartTime(element) {
+    const times = getTimes(element);
+    const startTime = formatTime(times[0]);
+    return startTime;
+}
+
+function getEndTime(element) {
+    const times = getTimes(element);
+    const endTime = formatTime(times[1]);
+    return endTime;
+}
+
 function getAdmission(element) {
-    const price = element.querySelector(
-        ".tribe-events-c-small-cta__price",
-    );
+    const price = element.querySelector(".tribe-events-c-small-cta__price");
     return price.textContent.trim();
 }
 
 function getUrl(element) {
-    const selector =
-        ".tribe-events-pro-photo__event-title-link";
+    const selector = ".tribe-events-pro-photo__event-title-link";
     const url = element.querySelector(selector).href;
     return url;
 }
 
-let pageNum = 1;
-let pageEvents;
-let events = [];
+async function getAllEvents() {
+    let pageNum = 1;
+    let pageEvents;
+    let events = [];
 
-do {
-    pageEvents = await getPageEvents(pageNum);
-    events = events.concat(pageEvents);
-    pageNum++;
-} while (pageEvents.length > 0);
+    do {
+        pageEvents = await getPageEvents(pageNum);
+        events = events.concat(pageEvents);
+        pageNum++;
+    } while (pageEvents.length > 0);
 
-fs.writeFile(
-    path.resolve("..", "calendars", "crazyhorse.json"),
-    JSON.stringify(events, null, 2),
-    (err) => {
-        if (err) {
-            console.error(err);
-        } else {
-            console.log("File written successfully.");
-        }
-    },
-);
+    return events;
+}
+
+export default getAllEvents;
