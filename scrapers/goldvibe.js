@@ -77,8 +77,11 @@ function getTime(dateString) {
 
 function getAdmissionPrice(event) {
     const text = event.description;
-    const prices = matchPrices(text);
+    if (!text) {
+        return null;
+    }
 
+    const prices = matchPrices(text);
     if (!prices) {
         return null;
     }
@@ -109,7 +112,8 @@ function matchPrices(text) {
 }
 
 function getUrl(event) {
-    return event.ticketsLink;
+    const url = event.ticketsLink;
+    return url || null;
 }
 
 export default getAllEvents;
