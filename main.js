@@ -1,6 +1,7 @@
 import getGoldVibeEvents from "./scrapers/goldvibe.js";
 import getCrazyHorseEvents from "./scrapers/crazyhorse.js";
 import getElixartEvents from "./scrapers/elixart.js";
+import getCFTAEvents from "./scrapers/centerforthearts.js";
 
 import sql from "./db.js";
 import { v4 as uuid4 } from "uuid";
@@ -36,8 +37,15 @@ async function getAllEvents() {
     const goldVibeEvents = await getGoldVibeEvents();
     const crazyHorseEvents = await getCrazyHorseEvents();
     const elixartEvents = await getElixartEvents();
+    const cftaEvents = await getCFTAEvents();
 
-    events = events.concat(goldVibeEvents, crazyHorseEvents, elixartEvents);
+    events = events.concat(
+        goldVibeEvents,
+        crazyHorseEvents,
+        elixartEvents,
+        cftaEvents,
+    );
+
     return events;
 }
 
