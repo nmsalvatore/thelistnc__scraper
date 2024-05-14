@@ -113,7 +113,7 @@ function matchPrices(text) {
 
 function getUrl(event) {
     const url = event.ticketsLink;
-    return url || null;
+    return url ?? null;
 }
 
 export default getAllEvents;
