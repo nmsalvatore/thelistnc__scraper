@@ -46,7 +46,7 @@ function getPageEvents(data) {
 }
 
 function getTitle(event) {
-    return event.summary;
+    return event.summary.trim();
 }
 
 function getStartDate(event) {
