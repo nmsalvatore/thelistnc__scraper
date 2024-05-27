@@ -115,7 +115,7 @@ function matchPrices(text) {
 
 function getUrl(event) {
     const url = event.ticketsLink;
-    return url ?? "https://www.goldvibe.com/pages/schedule";
+    return url || "https://www.goldvibe.com/pages/schedule";
 }
 
 export default getAllEvents;

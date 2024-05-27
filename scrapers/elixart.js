@@ -115,7 +115,7 @@ function matchPrices(text) {
 
 function getUrl(event) {
     const url = event.ticketsLink;
-    return url ?? "https://elixart.com/pages/events";
+    return url || "https://elixart.com/pages/events";
 }
 
 export default getAllEvents;
