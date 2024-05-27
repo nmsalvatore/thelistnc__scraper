@@ -10,7 +10,7 @@ try {
     await sql.begin(async (sql) => {
         const events = await getAllEvents(sql);
         await insertEventData(sql, events);
-        console.log("Transaction successful");
+        console.log(`${events.length} events successfully added to database`);
     });
 } catch (error) {
     console.error("Scraper error:", error);
