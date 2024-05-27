@@ -1,9 +1,11 @@
 import fs from "node:fs";
 import path from "path";
-import { months, formatTime } from "../utils/dates.js";
+import { months, formatTime, dateIsInvalid } from "../utils/dates.js";
 import jsdom from "jsdom";
 
-async function getAllEvents() {
+async function getAllEvents(sql) {
+    await sql`DELETE FROM events_event WHERE venue = 'The Center for the Arts'`;
+
     let events = [];
     let num = 1;
     let pageEvents;
@@ -49,17 +51,22 @@ function getEventContainers(document) {
 async function getPageEvents(pageNum) {
     const data = await getPageEventData(pageNum);
     const html = await data.data.html;
-    const document = await getDOM(html);
+    const document = getDOM(html);
 
     const events = [];
 
     const eventContainers = await getEventContainers(document);
     for (let containerElement of eventContainers) {
+        const startDate = getStartDate(containerElement);
+        if (isNaN(startDate)) {
+            continue;
+        }
+
         events.push({
             title: getTitle(containerElement),
             venue: "The Center for the Arts",
             city: "Grass Valley",
-            startDate: getStartDate(containerElement),
+            startDate: startDate,
             startTime: getStartTime(containerElement),
             endTime: null,
             admission: getAdmissionPrice(containerElement),
@@ -117,6 +124,10 @@ function getStartDate(listing) {
     const date = new Date(year, month, day);
     date.setHours(date.getHours() - 7);
     const today = getToday();
+
+    if (dateIsInvalid(date)) {
+        return null;
+    }
 
     if (date < today) {
         date.setFullYear(date + 1);

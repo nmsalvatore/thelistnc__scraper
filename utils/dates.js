@@ -14,13 +14,9 @@ const months = [
 ];
 
 function formatTime(timeStr) {
-    const timeStrFormatted = timeStr
-        .replace(".", "")
-        .toLowerCase();
+    const timeStrFormatted = timeStr.replace(".", "").toLowerCase();
     const meridiem = timeStrFormatted.match(/am|pm/);
-    const time = timeStrFormatted.match(
-        /(\d{1,2})(:\d{2})?(?=\s*[ap]m)/i,
-    );
+    const time = timeStrFormatted.match(/(\d{1,2})(:\d{2})?(?=\s*[ap]m)/i);
 
     let hour;
 
@@ -58,4 +54,8 @@ function extractTimes(timeString) {
     return [startTime, endTime];
 }
 
-export { months, formatTime, extractTimes };
+function dateIsInvalid(date) {
+    return String(date) === "Invalid Date";
+}
+
+export { months, formatTime, extractTimes, dateIsInvalid };

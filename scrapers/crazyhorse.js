@@ -4,7 +4,21 @@ import jsdom from "jsdom";
 import got from "got";
 import { extractTimes, formatTime } from "../utils/dates.js";
 
-const { JSDOM } = jsdom;
+async function getAllEvents(sql) {
+    await sql`DELETE FROM events_event WHERE venue = 'Crazy Horse Saloon'`;
+
+    let pageNum = 1;
+    let pageEvents;
+    let events = [];
+
+    do {
+        pageEvents = await getPageEvents(pageNum);
+        events = events.concat(pageEvents);
+        pageNum++;
+    } while (pageEvents.length > 0);
+
+    return events;
+}
 
 async function getPageDocument(pageNum) {
     const response = await fetch(
@@ -12,6 +26,7 @@ async function getPageDocument(pageNum) {
     );
 
     const html = await response.text();
+    const { JSDOM } = jsdom;
     const dom = new JSDOM(html);
     const document = dom.window.document;
     return document;
@@ -91,20 +106,6 @@ function getUrl(element) {
     const selector = ".tribe-events-pro-photo__event-title-link";
     const url = element.querySelector(selector).href;
     return url;
-}
-
-async function getAllEvents() {
-    let pageNum = 1;
-    let pageEvents;
-    let events = [];
-
-    do {
-        pageEvents = await getPageEvents(pageNum);
-        events = events.concat(pageEvents);
-        pageNum++;
-    } while (pageEvents.length > 0);
-
-    return events;
 }
 
 export default getAllEvents;

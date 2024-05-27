@@ -1,7 +1,9 @@
 import fs from "node:fs";
 import path from "path";
 
-async function getAllEvents() {
+async function getAllEvents(sql) {
+    await sql`DELETE FROM events_event WHERE venue = 'Elixart'`;
+
     let pageNum = 1;
     let nextPage;
     let events = [];
@@ -113,7 +115,7 @@ function matchPrices(text) {
 
 function getUrl(event) {
     const url = event.ticketsLink;
-    return url ?? null;
+    return url ?? "https://elixart.com/pages/events";
 }
 
 export default getAllEvents;
