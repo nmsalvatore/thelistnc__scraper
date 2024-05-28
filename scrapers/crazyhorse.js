@@ -74,8 +74,9 @@ function getStartDate(element) {
     const dateString = datetimeElement.getAttribute("datetime");
     const [year, month, day] = dateString.split("-");
     const date = new Date(year, month - 1, day);
-    date.setHours(date.getHours() - 7);
-    return date;
+    return date.toLocaleDateString("en-US", {
+        timeZone: "America/Los_Angeles",
+    });
 }
 
 function getTimes(element) {

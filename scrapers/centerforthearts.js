@@ -1,5 +1,3 @@
-import fs from "node:fs";
-import path from "path";
 import { months, formatTime, dateIsInvalid } from "../utils/dates.js";
 import jsdom from "jsdom";
 
@@ -58,7 +56,7 @@ async function getPageEvents(pageNum) {
     const eventContainers = await getEventContainers(document);
     for (let containerElement of eventContainers) {
         const startDate = getStartDate(containerElement);
-        if (isNaN(startDate)) {
+        if (startDate === "Invalid Date") {
             continue;
         }
 
@@ -100,7 +98,7 @@ function getUrl(containerElement) {
         return null;
     }
 
-    const url = linkElement.href.split("?")[0];
+    const url = linkElement.href;
     return url;
 }
 
@@ -108,13 +106,39 @@ function getAdmissionPrice(containerElement) {
     const admissionElement = containerElement.querySelector(
         ".elementor-element-b12fd6b",
     );
-
     if (!admissionElement) {
         return null;
     }
 
-    const admission = admissionElement.textContent.trim();
-    return admission;
+    const admissionText = admissionElement.textContent.trim();
+    const prices = matchPrices(admissionText);
+    if (!prices) {
+        return null;
+    }
+
+    const [minPrice, maxPrice] = getMinMaxPrices(prices);
+    const priceString = formatPriceString(minPrice, maxPrice);
+    return priceString;
+}
+
+function formatPriceString(minPrice, maxPrice) {
+    if (minPrice === maxPrice) {
+        return `$${minPrice}`;
+    }
+    return `$${minPrice}-$${maxPrice}`;
+}
+
+function getMinMaxPrices(prices) {
+    const numericPrices = prices.map((price) => Number(price));
+    const minPrice = Math.min(...numericPrices);
+    const maxPrice = Math.max(...numericPrices);
+    return [minPrice, maxPrice];
+}
+
+function matchPrices(text) {
+    const regex = /\d+(?:\.\d+)?/g;
+    const prices = text.match(regex);
+    return prices;
 }
 
 function getStartDate(listing) {
@@ -122,7 +146,6 @@ function getStartDate(listing) {
     const day = getDay(listing);
     const year = new Date().getFullYear();
     const date = new Date(year, month, day);
-    date.setHours(date.getHours() - 7);
     const today = getToday();
 
     if (dateIsInvalid(date)) {
@@ -133,7 +156,9 @@ function getStartDate(listing) {
         date.setFullYear(date + 1);
     }
 
-    return date;
+    return date.toLocaleDateString("en-US", {
+        timeZone: "America/Los_Angeles",
+    });
 }
 
 function getToday() {

@@ -47,13 +47,13 @@ async function getAllEvents(sql) {
     const goldVibeEvents = await getGoldVibeEvents(sql);
     const crazyHorseEvents = await getCrazyHorseEvents(sql);
     const elixartEvents = await getElixartEvents(sql);
-    const cftaEvents = await getCFTAEvents(sql);
+    const centerEvents = await getCFTAEvents(sql);
 
     events = events.concat(
         goldVibeEvents,
         crazyHorseEvents,
         elixartEvents,
-        cftaEvents,
+        centerEvents,
     );
 
     return events;

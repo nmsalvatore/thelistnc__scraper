@@ -54,9 +54,9 @@ function getTitle(event) {
 function getStartDate(event) {
     const dateString = event.timezoneStart;
     const date = new Date(dateString);
-    date.setHours(0, 0, 0, 0);
-    date.setHours(date.getHours() - 7);
-    return date;
+    return date.toLocaleDateString("en-US", {
+        timeZone: "America/Los_Angeles",
+    });
 }
 
 function getStartTime(event) {
