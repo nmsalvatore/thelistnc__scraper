@@ -72,11 +72,7 @@ function getStartDate(element) {
         "time.tribe-events-pro-photo__event-date-tag-datetime",
     );
     const dateString = datetimeElement.getAttribute("datetime");
-    const [year, month, day] = dateString.split("-");
-    const date = new Date(year, month - 1, day);
-    return date.toLocaleDateString("en-US", {
-        timeZone: "America/Los_Angeles",
-    });
+    return dateString;
 }
 
 function getTimes(element) {

@@ -56,9 +56,6 @@ async function getPageEvents(pageNum) {
     const eventContainers = await getEventContainers(document);
     for (let containerElement of eventContainers) {
         const startDate = getStartDate(containerElement);
-        if (startDate === "Invalid Date") {
-            continue;
-        }
 
         events.push({
             title: getTitle(containerElement),
@@ -144,21 +141,21 @@ function matchPrices(text) {
 function getStartDate(listing) {
     const month = getMonth(listing);
     const day = getDay(listing);
+    const year = getYear(month, day);
+    return `${year}-${month}-${day}`;
+}
+
+function getYear(month, day) {
     const year = new Date().getFullYear();
-    const date = new Date(year, month, day);
+    const dateString = `${year}-${month}-${day}`;
+    const date = new Date(dateString);
     const today = getToday();
 
-    if (dateIsInvalid(date)) {
-        return null;
-    }
-
     if (date < today) {
-        date.setFullYear(date + 1);
+        return year + 1;
     }
 
-    return date.toLocaleDateString("en-US", {
-        timeZone: "America/Los_Angeles",
-    });
+    return year;
 }
 
 function getToday() {
@@ -178,7 +175,7 @@ function getMonth(listing) {
         throw new Error("Expected month value invalid");
     }
 
-    return months.indexOf(monthName);
+    return months.indexOf(monthName) + 1;
 }
 
 function getDay(listing) {

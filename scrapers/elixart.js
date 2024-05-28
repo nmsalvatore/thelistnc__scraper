@@ -52,11 +52,8 @@ function getTitle(event) {
 }
 
 function getStartDate(event) {
-    const dateString = event.timezoneStart;
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-        timeZone: "America/Los_Angeles",
-    });
+    const date = event.timezoneStart.split("T");
+    return date[0];
 }
 
 function getStartTime(event) {
