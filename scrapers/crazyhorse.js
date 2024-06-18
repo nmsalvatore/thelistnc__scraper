@@ -96,7 +96,7 @@ function getEndTime(element) {
 
 function getAdmission(element) {
     const price = element.querySelector(".tribe-events-c-small-cta__price");
-    return price.textContent.trim();
+    return price?.textContent.trim() || null;
 }
 
 function getUrl(element) {
