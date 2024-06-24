@@ -1,6 +1,3 @@
-import fs from "node:fs";
-import path from "path";
-
 async function getAllEvents(sql) {
     await sql`DELETE FROM events_event WHERE venue = 'Gold Vibe Kombuchary'`;
 
