@@ -1,4 +1,4 @@
-import { months, formatTime, dateIsInvalid } from "../utils/dates.js";
+import { months, formatTime } from "../utils/dates.js";
 import jsdom from "jsdom";
 
 async function getAllEvents(sql) {

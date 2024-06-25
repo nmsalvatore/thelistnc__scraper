@@ -1,7 +1,4 @@
-import fs from "node:fs";
-import path from "path";
 import jsdom from "jsdom";
-import got from "got";
 import { extractTimes, formatTime } from "../utils/dates.js";
 
 async function getAllEvents(sql) {
