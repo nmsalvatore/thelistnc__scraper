@@ -1,6 +1,3 @@
-import fs from "node:fs";
-import path from "path";
-
 async function getAllEvents(sql) {
     await sql`DELETE FROM events_event WHERE venue = 'Elixart'`;
 
@@ -31,8 +28,11 @@ function getPageEvents(data) {
     const events = [];
 
     for (let event of data.events) {
+        const title = getTitle(event);
+        if (!title) continue;
+
         events.push({
-            title: getTitle(event),
+            title: title,
             venue: "Elixart",
             city: "Nevada City",
             startDate: getStartDate(event),
@@ -48,7 +48,8 @@ function getPageEvents(data) {
 }
 
 function getTitle(event) {
-    return event.summary.trim();
+    const title = event.summary?.trim();
+    return title;
 }
 
 function getStartDate(event) {
