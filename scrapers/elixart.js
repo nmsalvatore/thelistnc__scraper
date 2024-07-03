@@ -72,7 +72,6 @@ function getEndTime(event) {
 function getTime(dateString) {
     const date = new Date(dateString);
     const time = date.toLocaleTimeString("en-US", {
-        timeZone: "America/Los_Angeles",
         hour12: false,
     });
     return time;
