@@ -66,11 +66,8 @@ function getEndTime(event) {
 }
 
 function getTime(dateString) {
-    const date = new Date(dateString);
-    const time = date.toLocaleTimeString("en-US", {
-        hour12: false,
-    });
-    return time;
+    const time = dateString.split("T");
+    return time[1];
 }
 
 function getAdmissionPrice(event) {
