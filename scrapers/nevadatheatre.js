@@ -46,7 +46,7 @@ async function getMonthEvents(monthStr) {
 
     for (const element of eventContainers) {
         const title = getTitle(element);
-        if (title.includes("Onyx Downtown")) {
+        if (title.toLowerCase().includes("onyx downtown")) {
             continue;
         }
 
