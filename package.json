@@ -13,5 +13,9 @@
         "postgres": "^3.4.4",
         "uuid": "^9.0.1"
     },
-    "type": "module"
+    "type": "module",
+    "devDependencies": {
+        "@tsconfig/node21": "^21.0.3",
+        "typescript": "^5.5.3"
+    }
 }
