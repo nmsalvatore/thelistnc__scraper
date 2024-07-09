@@ -63,14 +63,14 @@ function getTitle(event) {
 }
 
 function getVenue(event) {
-    const venues = {
-        "128 Mill Street": "Lucchesi's Tasting Room",
-        "19698 View Forever Lane": "Lucchesi's Vineyard",
-    };
     const address = event.querySelector(
         "p[data-typography='BodyAlpha']",
     ).textContent;
-    return venues[address];
+    if (address.includes("128")) {
+        return "Lucchesi's Tasting Room";
+    } else if (address.includes("19698")) {
+        return "Lucchesi's Vineyard";
+    }
 }
 
 function getStartDate(event) {
