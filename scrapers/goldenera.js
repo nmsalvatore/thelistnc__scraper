@@ -15,7 +15,7 @@ async function getPageDocument() {
 }
 
 async function getAllEvents(sql) {
-    await sql`DELETE FROM events_event WHERE venue = 'Golden Era Lounge'`;
+    await sql`DELETE FROM events_event WHERE venue = 'Golden Era Lounge' AND manual_upload = FALSE`;
 
     const events = [];
     const document = await getPageDocument();
@@ -32,7 +32,6 @@ async function getAllEvents(sql) {
         const endTime = getEndTime(event);
         const admission = null;
         const url = getUrl(event);
-        const continuous = false;
 
         const eventData = {
             title,
@@ -43,7 +42,6 @@ async function getAllEvents(sql) {
             endTime,
             admission,
             url,
-            continuous,
         };
 
         events.push(eventData);

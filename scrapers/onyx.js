@@ -42,7 +42,6 @@ async function getOnyxShowings() {
                     const endTime = null;
                     const admission = null;
                     const url = await getShowingUrl(showtimeData);
-                    const continuous = false;
 
                     const showing = {
                         title,
@@ -53,7 +52,6 @@ async function getOnyxShowings() {
                         endTime,
                         admission,
                         url,
-                        continuous,
                     };
 
                     showings.push(showing);

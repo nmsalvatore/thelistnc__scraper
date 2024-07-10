@@ -1,5 +1,5 @@
 async function getAllEvents(sql) {
-    await sql`DELETE FROM events_event WHERE venue = 'Elixart'`;
+    await sql`DELETE FROM events_event WHERE venue = 'Elixart' AND manual_upload = FALSE`;
 
     let pageNum = 1;
     let nextPage;
@@ -40,7 +40,6 @@ function getPageEvents(data) {
             endTime: getEndTime(event),
             admission: getAdmissionPrice(event),
             url: getUrl(event),
-            continuous: false,
         });
     }
 

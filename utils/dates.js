@@ -13,6 +13,14 @@ const months = [
     "Dec",
 ];
 
+function getUTCDateString(date) {
+    const year = date.getUTCFullYear();
+    const month = date.getUTCMonth() + 1;
+    const day = date.getUTCDate();
+    const dateString = `${year}-${month}-${day}`;
+    return dateString;
+}
+
 function formatTime(timeStr) {
     const timeStrFormatted = timeStr.replace(".", "").toLowerCase();
     const meridiem = timeStrFormatted.match(/am|pm/);
@@ -58,4 +66,4 @@ function dateIsInvalid(date) {
     return String(date) === "Invalid Date";
 }
 
-export { months, formatTime, extractTimes, dateIsInvalid };
+export { months, formatTime, extractTimes, dateIsInvalid, getUTCDateString };

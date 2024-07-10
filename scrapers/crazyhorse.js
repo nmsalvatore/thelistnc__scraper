@@ -2,7 +2,7 @@ import jsdom from "jsdom";
 import { extractTimes, formatTime } from "../utils/dates.js";
 
 async function getAllEvents(sql) {
-    await sql`DELETE FROM events_event WHERE venue = 'Crazy Horse Saloon'`;
+    await sql`DELETE FROM events_event WHERE venue = 'Crazy Horse Saloon' and manual_upload = FALSE`;
 
     let pageNum = 1;
     let pageEvents;
@@ -52,7 +52,6 @@ async function getPageEvents(pageNum) {
             endTime: getEndTime(article),
             admission: getAdmission(article),
             url: getUrl(article),
-            continuous: false,
         });
     }
 

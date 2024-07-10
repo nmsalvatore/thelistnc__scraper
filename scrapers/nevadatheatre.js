@@ -3,7 +3,7 @@ import getOnyxShowings from "./onyx.js";
 import { formatTime } from "../utils/dates.js";
 
 async function getAllEvents(sql) {
-    await sql`DELETE FROM events_event WHERE venue = 'Nevada Theatre'`;
+    await sql`DELETE FROM events_event WHERE venue = 'Nevada Theatre' AND manual_upload = FALSE`;
 
     let events = [];
     let month = getCurrentMonth();
@@ -57,7 +57,6 @@ async function getMonthEvents(monthStr) {
         const endTime = null;
         const admission = null;
         const url = getUrl(element);
-        const continuous = false;
 
         events.push({
             title,
@@ -68,7 +67,6 @@ async function getMonthEvents(monthStr) {
             endTime,
             admission,
             url,
-            continuous,
         });
     }
 

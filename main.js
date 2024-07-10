@@ -36,7 +36,8 @@ async function insertEventData(sql, events) {
                 end_time: event.endTime,
                 admission_price: event.admission,
                 url: event.url,
-                continuous: event.continuous,
+                continuous: false,
+                manual_upload: false,
             })}`;
         } catch (error) {
             throw Error(error);
