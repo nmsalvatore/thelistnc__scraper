@@ -47,6 +47,7 @@ async function getAllEvents(sql) {
         events.push(eventData);
     }
 
+    console.log(`Retrieved ${events.length} events from Golden Era Lounge`);
     return events;
 }
 

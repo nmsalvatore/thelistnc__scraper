@@ -13,6 +13,7 @@ async function getAllEvents(sql) {
         pageNum++;
     } while (nextPage);
 
+    console.log(`Retrieved ${events.length} events from Gold Vibe Kombuchary`);
     return events;
 }
 

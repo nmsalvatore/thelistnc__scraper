@@ -26,6 +26,8 @@ async function getAllEvents(sql) {
 
     const onyxEvents = await getOnyxShowings();
     events = events.concat(onyxEvents);
+
+    console.log(`Retrieved ${events.length} events from The Nevada Theatre`);
     return events;
 }
 

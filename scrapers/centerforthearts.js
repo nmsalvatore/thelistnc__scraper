@@ -19,6 +19,9 @@ async function getAllEvents(sql) {
         return filterOutModifiedEvents(event, modifiedEvents);
     });
 
+    console.log(
+        `Retrieved ${events.length} events from The Center for the Arts`,
+    );
     return filteredEvents;
 }
 

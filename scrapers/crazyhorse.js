@@ -14,6 +14,7 @@ async function getAllEvents(sql) {
         pageNum++;
     } while (pageEvents.length > 0);
 
+    console.log(`Retrieved ${events.length} events from Crazy Horse Saloon`);
     return events;
 }
 
